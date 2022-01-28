@@ -4,7 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public static GameManager instance =null;
+
+    [SerializeField]
+    private GameObject PlayerCharacter;
+
+    [SerializeField]
+    private GameObject LevelKey;
+
+    private bool IsLevelWinnable=true;
+
+    public bool Pause = false;
+
+
+
+    void Awake(){
+        if (instance==null){
+            instance=this;
+        }
+        else {
+            DestroyImmediate(this);
+        }
+    }
+
     void Start()
     {
         
@@ -13,6 +36,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PlayerGetsKey();
+        GamePaused();
+    }
+
+    private void PlayerGetsKey(){
+        if (LevelKey==null && IsLevelWinnable==true){
+            IsLevelWinnable=false;
+        }
+    }
+
+    private void GamePaused(){
+        if (Input.GetKeyDown("p")){
+            Pause = !Pause;
+
+            Debug.Log(Pause);
+        }
     }
 }
